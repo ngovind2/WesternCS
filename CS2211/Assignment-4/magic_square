@@ -1,0 +1,76 @@
+// Creates magic squares of odd-numbered sizes
+
+#include <stdio.h>
+#include <stdbool.h>
+
+int main() {
+
+    int size;
+    
+    // Loop until user enters valid input
+    do {
+        
+        // Prompt for user input
+        printf("Enter size of magic square, which must be an odd integer between 1-99: ");
+        scanf("%d", &size);
+        
+        // Display error message if user inputs invalid entry
+        if (size % 2 == 0 || size < 1 || size > 99)
+            printf("Invalid size, try again.\n\n");
+        
+    } while (size % 2 == 0 || size < 1 || size > 99);
+    
+    int magic_square[size][size];
+    
+    // Loop through array and assign all elements to 0
+    for(int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            magic_square[i][j] = 0;
+        }
+    }
+
+    int row = 0, colInc = 0;
+    bool resetRow = 0, resetCol = 0;
+    
+    // Loop to assign new value to each element of array; values range from 1 to size^2
+    for (int i = 1; i <= size*size; i++, row--, colInc++) {
+        
+        if (row < 0) {
+            row = size - 1;         // Reset row
+            resetRow = 1;           // Increment check value to indicate row was reset
+        }
+        if (size/2 + colInc >= size) {
+            colInc = -1*size/2;     // Reset column
+            resetCol = 1;           // Increment check value to indicate column was reset
+        }
+        
+        // If array element has not been filled yet, fill with number
+        if (magic_square[row][size/2 + colInc] == 0) {
+            magic_square[row][size/2 + colInc] = i;
+        }
+        
+        // Otherwise, calculate new position for number
+        else {
+            
+            if (resetRow == 1) { row = 1; } // If row was reset, reset to row 1
+            else { row += 2; }              // Otherwise, new row position will be row 2 down
+            
+            if (resetCol == 1) { colInc = size/2; } // If column was reset, reset to last column
+            else { colInc = colInc - 1; }           // Otherwise, new column will be column 1 left
+            
+            magic_square[row][size/2 + colInc] = i; // Fill new element with number
+        }
+        
+        // Reset boolean check values
+        resetRow = 0; resetCol = 0;
+    }
+    
+    // Print magic square
+    for(int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) { printf("%5d ", magic_square[i][j]); }
+        printf("\n");
+    }
+    
+    return 0;
+}
+

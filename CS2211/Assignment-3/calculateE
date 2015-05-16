@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+int main () {
+
+    double e = 1.0, factorial = 1.0;
+    int flimit = 1, fcount;
+    double termLimit;
+    
+    // Loop until user has entered a positive value between 0-1 (1 inclusive)
+    do {
+        printf("Please enter a decimal value to which e should be approximated: ");
+        scanf("%lf", &termLimit);
+        if (termLimit <= 0 || termLimit > 1) {
+            printf("Please enter a valid decimal value.\n");
+        }
+    } while (termLimit <= 0 || termLimit > 1);
+    
+    // Determine value of e until the term to be added becomes less than termLimit
+    while (termLimit <= 1/factorial) {
+        
+        // Determine denominator of term to be added
+        fcount = 1;
+        factorial = 1.0;
+        
+        while (fcount <= flimit) {
+            factorial *= fcount;
+            fcount++;
+        }
+        
+        // Increment n used for the n! denominator
+        flimit++;
+       
+        // Calculate e
+        if (termLimit <= 1/factorial)
+            e += 1/factorial;
+        
+    }
+    
+    // Output results
+    printf("The approximate value of e is %.15lf. ", e);
+    printf("A total of %d terms were required to generate e.\n", flimit-1);
+    
+    return 0;
+}

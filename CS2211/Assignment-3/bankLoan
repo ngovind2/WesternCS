@@ -1,0 +1,79 @@
+#include <stdio.h>
+
+int main () {
+    int count;
+    float loan, payment, number, yearlyRate, monthlyRate;
+    
+    // Prompt user for valid input
+    do {
+        // Enter loan amount, which will become the initial balance
+        printf("Please enter the loan amount: ");
+        scanf("%f", &loan);
+        
+	if (loan < 0) {
+            printf("Please enter a non-negative loan value.\n");
+            continue;
+        }
+    } while (loan < 0);
+    
+    
+    do {
+        // Enter the yearly interest rate
+        printf("Please enter the yearly interest rate (without %%): ");
+        scanf("%f", &yearlyRate);
+        
+        if (yearlyRate < 0) {
+            printf("Please enter a non-negative interest rate.\n");
+            continue;
+        }
+    } while(yearlyRate < 0);
+    
+    do {
+        // Enter the monthly payment amount
+        printf("Please enter a monthly payment amount: ");
+        scanf("%f", &payment);
+        
+        if (payment < 0) {
+            printf("Please enter a non-negative amount.\n");
+            continue;
+        }
+    } while(payment < 0);
+    
+    do {
+        // Enter the number of intended payments
+        printf("Please enter the number of monthly payments: ");
+        scanf("%f", &number);
+        
+        if (number <= 0) {
+            printf("Please enter a positive (> 0) number.\n");
+            continue;
+        }
+    } while(number <= 0);
+    
+    printf("\n");
+    
+    // Convert yearly interest rate to decimal format, then determine monthly rate
+    monthlyRate = (yearlyRate/100)/12;
+    
+    // Calculate and print the balance after each monthly payment
+    count = 1;
+    while (count <= number) {
+        
+        // If loan + interest < payment, the last payment will equate to loan + interest
+        if (loan * (1 + monthlyRate) < payment) {
+            payment = ( loan * (1 + monthlyRate) );
+            printf("The last payment will be $%.2f. ", payment);
+            printf("\n\nAfter %d payment(s), the balance is $0.\n", count);
+            break;
+        }
+        
+        // If loan + interest > payment, proceed with full payment
+        if (loan * (1 + monthlyRate) >= payment) {
+            loan = ( loan * (1 + monthlyRate) ) - payment;
+            printf("After %d payment(s) of $%.2f, the balance is $%.2f.\n", count, payment, loan);
+            count++;
+        }
+    }
+    
+    return 0;
+}

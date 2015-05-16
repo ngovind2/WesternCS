@@ -1,0 +1,71 @@
+// Manipulating complex numbers using structs defined via typedef
+
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+ // Declaration of struct with typedef
+ typedef struct {
+    double real, imaginary;
+ } complex_t;
+ 
+ // Function prototypes
+ complex_t multiply(complex_t x, complex_t y);
+ complex_t * divide(complex_t * x, complex_t * y);
+ 
+ int main (void) {
+ 
+    complex_t x, y, product, * quotient;
+ 
+    // Prompt for user to input values for each complex number
+    printf("A complex number can be represented as a + bi, where a is the real part and b is the coefficient of the imaginary unit.\n");
+ 
+    printf("\nEnter the values of the first complex number's real (a) and imaginary (b) parts: ");
+    scanf("%lf %lf", &x.real, &x.imaginary);
+ 
+    printf("\nEnter the values of the second complex number's real (a) and imaginary (b) parts: ");
+    scanf("%lf %lf", &y.real, &y.imaginary);
+ 
+    // Calculate product and quotient of complex numbers
+    product = multiply(x, y);
+    printf("\nThe product of these complex numbers is %lf + (%lf)i\n", product.real, product.imaginary);
+ 
+    quotient = divide(&x, &y);
+    printf("\nThe quotient of these complex numbers is %lf + (%lf)i\n", quotient->real, quotient->imaginary);
+ 
+    return 0;
+ }
+ 
+ // Function that multiplies two complex numbers (passed by value)
+ complex_t multiply(complex_t x, complex_t y) {
+ 
+    complex_t product;
+ 
+    // Multiplication calculations to determine components of product
+    product.real = (x.real * y.real) - (x.imaginary * y.imaginary);
+    product.imaginary = (x.real * y.imaginary) + (x.imaginary * y.real);
+ 
+    return product;
+ }
+ 
+ // Function that divides two complex numbers (passed by reference)
+ complex_t * divide(complex_t * x, complex_t * y) {
+ 
+    // Pointer dynamically allocated complex_t object
+    complex_t * quotient = malloc(sizeof(complex_t));
+ 
+    if (quotient != NULL && (y->real * y->real + y->imaginary * y->imaginary)) {
+ 
+    // Calculate real and imaginary components of quotient
+    quotient->real = ((x->real * y->real) + (x->imaginary * y->imaginary)) / (y->real * y->real + y->imaginary * y->imaginary);
+ 
+    quotient->imaginary = ((y->real * x->imaginary) - (x->real * y->imaginary)) / (y->real * y->real + y->imaginary * y->imaginary);
+
+    } else {
+ 
+     // If division operation fails, print error message and exit
+    printf("\nError in division operation!\n");
+    exit(EXIT_FAILURE);
+    
+    }
+  return quotient;
+}

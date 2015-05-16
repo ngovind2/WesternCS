@@ -1,0 +1,45 @@
+// Calculate least amount of bills/coins to make payment 
+
+#include <stdio.h>
+
+// Function prototype
+void pay_amount(int dollars, int * twenties, int * tens, int * fives, int * toonies, int * loonies);
+
+int main() {
+    
+    int payment, _20s, _10s, _5s, _2s, _1s;
+    int * twenties = &_20s, * tens = &_10s, * fives = &_5s, * toonies = &_2s, * loonies = &_1s;
+    
+    do {
+    
+        // Prompt for user input
+        printf("Enter payment amount (must be positive): ");
+        scanf("%d", &payment);
+        
+    } while(payment < 0);
+    
+    pay_amount(payment, twenties, tens, fives, toonies, loonies);
+    
+    // Display information
+    printf("You can pay $%d with %d $20 bill(s), %d $10 bill(s), %d $5 bill(s), %d toonie(s) and %d loonie(s).\n", payment, _20s, _10s, _5s, _2s, _1s);
+    
+    return 0;
+}
+
+// Function determines smallest number of $20, $10, $5, $2, $1 bills/coins needed to make payment
+void pay_amount(int dollars, int * twenties, int * tens, int * fives, int * toonies, int * loonies) {
+
+    *twenties = dollars/20;     // Number of $20 bills needed
+    dollars = dollars % 20;     // Remaining payment
+    
+    *tens = dollars/10;         // Number of $10 bills needed
+    dollars = dollars % 10;     // Remaining payment
+    
+    *fives = dollars/5;         // Number of $5 bills needed
+    dollars = dollars % 5;      // Remaining payment
+    
+    *toonies = dollars/2;       // Number of $2 coins needed
+    dollars = dollars % 2;      // Remaining payment
+    
+    *loonies = dollars;         // Number of $1 coins needed 
+}

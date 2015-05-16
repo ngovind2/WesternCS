@@ -1,0 +1,61 @@
+#!/bin/sh
+# This script creates a horizontal triangle with a user-specified number of columns
+
+# Prompt user to input desired number of columns
+echo "Please enter how many columns to include in the triangle."
+
+# Store data
+read colNum
+
+# Confirm that input is positive integer
+if [ $colNum -lt 1 ] 
+then
+	# If not, notify user
+	echo "You entered an invalid number of columns."
+else
+	# If so, do nothing
+	:
+fi
+
+# Build first half of triangle
+# Each row is created by incrementing “count” to a max value specified by “row count”
+
+# Row count
+rowAsc=1
+
+# Loop until row count exceeds user-specified column number
+while [ $rowAsc -le $colNum ]
+do
+	count1=0
+	
+	# Loop until count value reaches max limit (ie. row count - 1)
+	while [ $count1 -lt $rowAsc ]
+	do
+		echo -n "$count1 " 		  	# print value
+		count1=`expr $count1 + 1`	# increment count value
+	done
+	echo                        # print new line
+	rowAsc=`expr $rowAsc + 1`   # increment row count
+done
+
+# Build second half of triangle
+# Each row is created by incrementing “count” to a max value specified by “row count”
+
+# Row count
+rowDes=`expr $colNum - 1`
+
+# Loop until row count reaches 0 
+while [ $rowDes -gt 0 ]
+do
+	count2=0
+
+	# Loop until count value reaches max limit (ie. row count - 1)
+	while [ $count2 -lt $rowDes ]
+	do
+		echo -n "$count2 "          # print value
+		count2=`expr $count2 + 1`   # increment count value
+	done
+	echo                          # print new line
+	rowDes=`expr $rowDes - 1`     # decrement row count
+done
+exit

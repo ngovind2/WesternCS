@@ -1,0 +1,96 @@
+#include <stdio.h>
+
+// Define macros to imitate boolean values
+#define TRUE 1
+#define FALSE 0
+
+int main() {
+
+	int validInput, time, duration, timeHours, timeMins, durHours, durMins, newHours, newMins;
+
+    	validInput = FALSE;
+    
+   	 // Loop until valid input is received
+	 while(!validInput) {
+        
+        	// Prompt user to input a time
+		printf("Please enter a time of day in 24-h format: ");
+		scanf("%d", &time);
+        
+       	 	// Determine hours by discarding the last 2 digits of the input
+        	timeHours = time / 100;
+        
+        	// Determine minutes by isolating the last 2 digits of the input
+        	timeMins = time % 100;
+        
+       		// Check validity of input (time must be positive integer, hours < 24, mins < 60)
+       		if  (time >= 0 && timeHours < 24 && timeMins < 60)
+                	validInput = TRUE;
+        	else {
+            	// Print error message
+            	printf("Incorrect input. Please try again. \n");
+        	}
+    	}
+    
+    	// Reset value of variable for validity check
+    	validInput = FALSE;
+    
+   	while(!validInput){
+        
+        	// Prompt user to input a time duration
+       		printf("Please enter a time duration: ");
+        	scanf("%d", &duration);
+        
+       		// Isolate hours & minutes of input
+        	durHours = duration / 100;
+       	 	durMins = duration % 100;
+        
+        	// Check validity of input (absolute value of minutes < 60)
+        	if ((durMins > -60 && durMins <= 0) || (durMins >= 0 && durMins < 60)) {
+            	validInput = TRUE;
+        	}
+        	else {
+            	// Print error message
+            	printf("Please enter a valid time duration.\n");
+        	}
+    	}
+    
+    	// Consider 2 cases when calculating new time:
+   	
+	// Case 1: when duration value is positive
+    	if(duration >= 0) {
+        
+        	// Calculate new time via addition
+        	newHours = (timeHours + durHours + ((timeMins + durMins) / 60)) % 24;
+        	newMins = (timeMins + durMins) % 60;
+    	}
+    
+    	// Case 2: when duration value is negative
+    	else if (duration < 0) {
+        	durHours = -durHours;
+        	durMins = -durMins;
+        
+        	// Calculate new minutes: 
+		// Subtract an hour & add the complement (60 - duration minutes). Equivalent to subtracting duration minutes.
+        	if (timeMins < durMins) {
+        		durMins = -(60 - durMins);
+           	 	durHours = durHours + 1;	// Compensate for hour subtracted above
+        	}		
+        
+        	// Calculate new hours:
+		// Similar to above - determine complement (24 - duration hours)
+        	if (timeHours < durHours) {
+          		durHours = durHours % 24;	// Reduce to an hour between 0-23
+           	 	durHours = -(24 - durHours);
+        	}
+        
+        	// Calculate new time
+        	newHours = timeHours - durHours;
+      		newMins = timeMins - durMins;
+    	}
+    
+    // Output new time
+   printf("The time after this duration will be %.2d%.2d.\n", newHours, newMins);
+    
+   return 0;
+}

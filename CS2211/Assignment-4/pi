@@ -1,0 +1,68 @@
+// Approximates value of pi to varying degrees of accuracy 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+int main(void) {
+    
+    int i, r, a = 0; long N, count;
+    double x, y, constant, sum = 0, data[10], mean = 0, stdSum = 0, stdDeviation = 0;
+    
+    // Seed for psuedo-random number generator
+    srand((unsigned) time(NULL));
+        
+    do {
+        // Prompt for user input
+        printf("Please enter a large positive value: ");
+        scanf("%ld", &N);
+        
+    } while (N < 0); // Ensure N is positive
+    
+    // Loop 10 times for mean and standard deviation calculations
+    for (r = 0 ; r < 10; r++){
+        
+        // Reset counter
+        count = 0;
+        
+        // Loop to calculate constant
+        for (i = 0 ; i < N; i++) {
+
+            // Assign random numbers between 0-1 to x and y
+            x = (double)rand() / (double)RAND_MAX;
+            y = (double)rand() / (double)RAND_MAX;
+            
+            // If point falls within circle's area, increment counter
+            if ((x*x)+(y*y) < 1)
+                count++;
+        }
+    
+        // Calculate ratio of points in circle to total points, then multiply ratio by four to estimate constant
+        constant = (double) count/i * 4;
+        
+        // Store constant in data array for standard deviation calculations
+        data[a++] = constant;
+        
+        // Sum constant values for mean calculation
+        sum += constant;
+        
+        // Print value of constant
+        printf("\nTrial %d: the value of the constant is approximately %lf.", r+1, constant);
+    }
+    
+    // Calculate mean
+    mean = sum/r;
+    
+    // Standard deviation calculations
+    for (int a = 0; a < 10; a++){
+        stdSum += pow((data[a] - mean), 2);
+    }
+    stdDeviation = sqrt(stdSum/10);
+    
+    // Print mean and standard deviation
+    printf("\n\nThe mean is %lf and the standard deviation is %lf.\n", mean, stdDeviation);
+    
+    return 0;
+}
+

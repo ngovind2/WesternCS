@@ -1,0 +1,16 @@
+#!/bin/sh
+# This script establishes a loop that refines the argument list to 1 argument
+# The remaining argument is printed; nothing is printed if there are 0 arguments
+
+while [ $# -gt 1 ]  	# Check if argument number is greater than 1
+do
+	shift        	# If so, discard first argument & shift each argument over  
+done			# Loop ends when there is no more than 1 argument left
+
+if [ $# -eq 1 ]     	# Check if only 1 argument exists
+then 
+	echo $1	     	# If so, print argument
+else
+	:	     	# If not, nothing is printed
+fi		    
+exit		     	
